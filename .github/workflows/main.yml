@@ -1,26 +1,26 @@
-name: Global Traffic Bot
+import requests
+import random
+import time
 
-on:
-  schedule:
-    # يعمل كل 20 دقيقة (توقيت عالمي)
-    - cron: '*/20 * * * *'
-  workflow_dispatch: # يتيح لك التشغيل اليدوي بضغطة زر
+# --- ضع رابط موقعك هنا ---
+TARGET_URL = "https://www.google.com"  # استبدله برابطك الخاص
 
-jobs:
-  run-bot:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+USER_AGENTS = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 17_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Mobile/15E148 Safari/604.1",
+    "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36"
+]
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
+def send_visits(count=20):
+    print(f"🚀 العمل جارٍ على إرسال {count} زيارة...")
+    for i in range(count):
+        headers = {'User-Agent': random.choice(USER_AGENTS)}
+        try:
+            response = requests.get(TARGET_URL, headers=headers, timeout=10)
+            print(f"✅ الزيارة {i+1}: تم بنجاح (Status: {response.status_code})")
+        except Exception as e:
+            print(f"❌ الزيارة {i+1}: فشلت بسبب {e}")
+        time.sleep(random.randint(1, 3))
 
-      - name: Install Dependencies
-        run: pip install requests
-
-      - name: Execute Traffic Bot
-        run: python bot.py
+if __name__ == "__main__":
+    send_visits()
