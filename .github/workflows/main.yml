@@ -3,9 +3,9 @@ import random
 import time
 
 # --- ضع رابط موقعك هنا ---
-TARGET_URL = "https://your-website.com"  # استبدله بالرابط الذي تريد جلب الزيارات له
+TARGET_URL = "https://your-website.com" # استبدله برابط موقعك
 
-# مصادر زيارة وهمية لتبدو طبيعية
+# قائمة بمصادر الزيارة لتبدو طبيعية
 REFERERS = [
     "https://www.google.com/",
     "https://www.facebook.com/",
@@ -13,6 +13,7 @@ REFERERS = [
     "https://www.bing.com/"
 ]
 
+# قائمة بمتصفحات مختلفة
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
     "Mozilla/5.0 (iPhone; CPU iPhone OS 17_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.3 Mobile/15E148 Safari/604.1",
@@ -28,11 +29,11 @@ def send_traffic(count=30):
         }
         try:
             response = requests.get(TARGET_URL, headers=headers, timeout=15)
-            print(f"✅ زيارة {i+1} ناجحة | Status: {response.status_code}")
+            print(f"✅ زيارة {i+1} ناجحة | الحالة: {response.status_code}")
         except Exception as e:
             print(f"❌ فشل في الزيارة {i+1}: {e}")
         
-        # انتظار عشوائي لتبدو الزيارة بشرية
+        # وقت انتظار عشوائي لتبدو الزيارة كأنها بشرية
         time.sleep(random.randint(2, 5))
 
 if __name__ == "__main__":
