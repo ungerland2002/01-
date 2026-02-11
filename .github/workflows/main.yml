@@ -1,40 +1,24 @@
-import requests
-import random
-import time
+name: Global Traffic Bot
 
-# --- ضع رابط موقعك هنا ---
-TARGET_URL = "https://your-website.com" # استبدله برابط موقعك
+on:
+  schedule:
+    - cron: '*/20 * * * *' # سيعمل تلقائياً كل 20 دقيقة
+  workflow_dispatch:      # لتشغيله يدوياً بضغطة زر
 
-# قائمة بمصادر الزيارة لتبدو طبيعية
-REFERERS = [
-    "https://www.google.com/",
-    "https://www.facebook.com/",
-    "https://twitter.com/",
-    "https://www.bing.com/"
-]
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4 # تحديث للإصدار الأحدث لضمان الاستقرار
 
-# قائمة بمتصفحات مختلفة
-USER_AGENTS = [
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (iPhone; CPU iPhone OS 17_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.3 Mobile/15E148 Safari/604.1",
-    "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Mobile Safari/537.36"
-]
+      - name: Setup Python
+        uses: actions/setup-python@v5 # تحديث للإصدار الأحدث
+        with:
+          python-version: '3.9'
 
-def send_traffic(count=30):
-    print(f"🚀 بدء عملية جلب {count} زيارة...")
-    for i in range(count):
-        headers = {
-            'User-Agent': random.choice(USER_AGENTS),
-            'Referer': random.choice(REFERERS)
-        }
-        try:
-            response = requests.get(TARGET_URL, headers=headers, timeout=15)
-            print(f"✅ زيارة {i+1} ناجحة | الحالة: {response.status_code}")
-        except Exception as e:
-            print(f"❌ فشل في الزيارة {i+1}: {e}")
-        
-        # وقت انتظار عشوائي لتبدو الزيارة كأنها بشرية
-        time.sleep(random.randint(2, 5))
+      - name: Install Dependencies
+        run: pip install requests
 
-if __name__ == "__main__":
-    send_traffic()
+      - name: Execute Traffic Bot
+        run: python bot.py # هذا هو السطر الذي يفشل في صورك لأن الملف غير موجود أو باسم مختلف
