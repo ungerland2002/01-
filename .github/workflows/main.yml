@@ -2,18 +2,18 @@ name: Global Traffic Bot
 
 on:
   schedule:
-    - cron: '*/20 * * * *' # سيعمل تلقائياً كل 20 دقيقة
-  workflow_dispatch:      # لتشغيله يدوياً بضغطة زر
+    - cron: '*/20 * * * *'
+  workflow_dispatch:
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4 # تحديث للإصدار الأحدث لضمان الاستقرار
+        uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v5 # تحديث للإصدار الأحدث
+        uses: actions/setup-python@v5
         with:
           python-version: '3.9'
 
@@ -21,4 +21,4 @@ jobs:
         run: pip install requests
 
       - name: Execute Traffic Bot
-        run: python bot.py # هذا هو السطر الذي يفشل في صورك لأن الملف غير موجود أو باسم مختلف
+        run: python bot.py # هذا السطر هو الذي يفشل لأن الملف bot.py غير موجود في المستودع حالياً
